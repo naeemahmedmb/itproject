@@ -1,0 +1,59 @@
+{% extends 'itshop/base.html' %} {% load custom_filter %} {% load cart %} {% block content %}
+
+<div class="badge bg-primary text-center" style="width: 83rem">
+  Naeem It Shop Online
+</div>
+<!-- <h1 class="text-center"></h1> -->
+
+<div class="container-fluit mt-3">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="list-group">
+        <a href="/" class="list-group-item-action btn btn-outline-info"
+          >All Products</a
+        >
+        {% for category in cat %}
+        <a
+          href="/?category={{category.id}}"
+          class="list-group-item-action btn btn-outline-info"
+          >{{category.name}}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-9" mx-auto>
+      <div class="row mx-auto">
+        {% for product in products %}
+        <div class="card mx-auto mb-3 col-lg-2" id="{{product.id}}">
+          <img class="card-img-top" src="{{product.image.url}}" />
+
+          <div class="card-body">
+            <p class="card-title">{{product.name}}</p>
+            <p class="card-text">
+              <b> <s> {{product.sell_price|currency}} </s> </b>
+            </p>
+            <p class="card-text"><b> {{product.discount| discount}} </b></p>
+            <p class="card-text">
+              <b> {{product.discount| price:product.sell_price}} </b>
+            </p>
+          </div>
+          <div class="cart-footer">
+            <div class="row">
+              <form action="#{{product.id}}" method="post">
+                {% csrf_token %}
+                <input
+                  type="submit"value="Add to Cart"class="btn btn-block btn-success"
+                />
+              </form>
+              <!-- <div class=""></div> -->
+            </div>
+          </div>
+        </div> 
+        {% endfor %} 
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock%}
